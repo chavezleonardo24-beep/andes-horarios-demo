@@ -1,0 +1,19 @@
+{
+  "name": "Andes Construcciones Horarios",
+  "short_name": "Andes",
+  "description": "Portal de horarios y jornadas Andes Construcciones (DEMO)",
+  "start_url": "/andes-horarios-demo/",
+  "scope": "/andes-horarios-demo/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0d0d0d",
+  "theme_color": "#0d0d0d",
+  "icons": [
+    {
+      "src": "andes_logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

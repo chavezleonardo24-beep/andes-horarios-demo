@@ -3154,6 +3154,12 @@ function renderVistaEmpleado(nombreEmp, sucId, misRegistros) {
       const total = regs.reduce((a,r)=>a+(parseFloat(r.TOTAL_HS)||0),0);
       const esHoy = f.toDateString() === new Date().toDateString();
       const libre = !regs.length;
+      let tipoTurno = '';
+      if (!libre) {
+        if (regs.length >= 2) tipoTurno = 'cortado';
+        else if (total <= 4) tipoTurno = 'media';
+        else if (total >= 7) tipoTurno = 'corrido';
+      }
       const turnos = libre
         ? '<div class="portal-week-free">Libre</div>'
         : regs.map(r => {
@@ -3163,7 +3169,7 @@ function renderVistaEmpleado(nombreEmp, sucId, misRegistros) {
             return `<span class="portal-week-shift">${ent} → ${sal}</span>`;
           }).join('');
       cards.push(`
-        <div class="portal-week-card ${libre?'is-free':''} ${esHoy?'is-today':''}">
+        <div class="portal-week-card ${libre?'is-free':''} ${esHoy?'is-today':''} ${tipoTurno?'turno-'+tipoTurno:''}">
           <div class="portal-week-day">
             <span>${diasLargos[i]}</span>
             <span class="portal-week-day-num">${f.getDate()}</span>
@@ -5970,6 +5976,12 @@ function empNavSemana(delta, modo) {
     const total  = regs.reduce((a,r) => a + (parseFloat(r.TOTAL_HS)||0), 0);
     const esHoy  = f.toDateString() === new Date().toDateString();
     const libre  = !regs.length;
+    let tipoTurno = '';
+    if (!libre) {
+      if (regs.length >= 2) tipoTurno = 'cortado';
+      else if (total <= 4) tipoTurno = 'media';
+      else if (total >= 7) tipoTurno = 'corrido';
+    }
     function normTxt(txt) { return String(txt||'').trim().toUpperCase()==='FRANCO'?'Libre':String(txt||'').trim(); }
     const turnos = libre
       ? '<div class="portal-week-free">Libre</div>'
@@ -5979,7 +5991,7 @@ function empNavSemana(delta, modo) {
           return '<span class="portal-week-shift">' + ent + ' → ' + sal + '</span>';
         }).join('');
     cards.push(
-      '<div class="portal-week-card ' + (libre?'is-free':'') + ' ' + (esHoy?'is-today':'') + '">' +
+      '<div class="portal-week-card ' + (libre?'is-free':'') + ' ' + (esHoy?'is-today':'') + ' ' + (tipoTurno?'turno-'+tipoTurno:'') + '">' +
         '<div class="portal-week-day">' +
           '<span>' + diasLargos[i] + '</span>' +
           '<span class="portal-week-day-num">' + f.getDate() + '</span>' +

@@ -74,8 +74,20 @@
       case 'cargar_usuarios':
         return jsonRes({ ok: true, usuarios: store.usuarios });
 
-      case 'perfiles':
-        return jsonRes({ ok: true, empleados: [], categorias: [] });
+      case 'perfiles': {
+        // Perfiles demo: empresa + tipo de jornada por empleado (derivados de DEMO_DATA)
+        const empresas = ['Andes Construcciones', 'Andes Servicios'];
+        const cats = ['JC', 'MJ', 'FR'];
+        const nombres = (typeof DEMO_DATA !== 'undefined')
+          ? Array.from(new Set(DEMO_DATA.map(r => r.EMPLEADO)))
+          : [];
+        const empleados = nombres.map((nombre, i) => ({
+          nombre,
+          empresa: empresas[i % empresas.length],
+          categoria_id: cats[i % cats.length],
+        }));
+        return jsonRes({ ok: true, empleados, categorias: [] });
+      }
 
       case 'cargar_certificados':
         return jsonRes({ ok: true, certificados: [] });
